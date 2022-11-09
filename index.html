@@ -7,35 +7,31 @@
     <title>3x3 Scramble</title>
     <style>
       * {font-family: monospace;}
-      .label, #numberOfRandoms, #go, #output {font-size: 175%;}
-      #numberOfRandoms {width: 50px;}
+      .label, #inputNumberOfMoves, #go, #output {font-size: 175%;}
+      #inputNumberOfMoves {width: 50px;}
       #output {margin:1em; width:1000px}
       #output span {width: 34px; height: 28px; text-align: center; border:1px solid #000; display: inline-block; margin: 0 .4em .4em 0; background-color:#e0ffd9; border-radius: 3px;}
     </style>
   </head>
   <body>
-    <span class="label">Length: </span> <input type="number" id="numberOfRandoms" value="20" min="1" max="50" />
+    <span class="label">Length: </span> <input type="number" id="inputNumberOfMoves" value="" min="1" max="50" />
     <input type="button" id="go" value="Scramble" />
 
     <div id="output"></div>
 
     <script>
-      var output = document.getElementById("output");
-
-      document.getElementById("go").onclick = function(){
-        shuffler.length = document.getElementById("numberOfRandoms").value;
-        shuffler.shuffle();
-      };
+      var output = document.getElementById("output"),
+          inputNumberOfMoves = document.getElementById("inputNumberOfMoves");
 
       var shuffler = {
         faces: ["L","R","F","B","U","D","L'","R'","F'","B'","U'","D'","L2","R2","F2","B2","U2","D2"],
-        length: 20,
+        numberOfMoves: 25,
         shuffle : function(){
           var last = "placeholder",
           next = "placeholder",
           shuffledOrder = "";
 
-          for (var i = 0; i < this.length; i++) {
+          for (var i = 0; i < this.numberOfMoves; i++) {
             do {
               next = this.getNext();
             } while (next.substring(0, 1) == last.substring(0, 1));
@@ -47,12 +43,29 @@
 
           output.innerHTML = shuffledOrder;
         },
+        defaultShuffle: function(){
+          var shuffle = ["B","F","U","F","D","R'","F","D","L","B2","U'","B2","D","B'","R'","F2","L2","R2","U'"],
+              shuffledOrder = "";
+
+          for (var i = 0; i < shuffle.length; i++) {
+            shuffledOrder += "<span>".concat(shuffle[i]).concat("</span>");
+          }
+
+          output.innerHTML = shuffledOrder;
+        },
         getNext: function(){
           return this.faces[Math.floor(Math.random() * this.faces.length)];
         }
       };
 
-      shuffler.shuffle();
+      document.getElementById("go").onclick = function(){
+        shuffler.numberOfMoves = inputNumberOfMoves.value;
+        shuffler.shuffle();
+      };
+
+      inputNumberOfMoves.value = shuffler.numberOfMoves;
+
+      shuffler.defaultShuffle();
     </script>
   </body>
 </html>
