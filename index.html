@@ -7,7 +7,8 @@
     <title>3x3 Scramble</title>
     <style>
       * {font-family: monospace;}
-      .label, #inputNumberOfMoves, #go, #output {font-size: 175%;}
+      .label, #inputNumberOfMoves, #output, input[type=button] {font-size: 175%;}
+      #shuffles {margin:1em 0}
       #inputNumberOfMoves {width: 50px;}
       #output {margin:1em; width:1000px}
       #output span {width: 34px; height: 28px; text-align: center; border:1px solid #000; display: inline-block; margin: 0 .4em .4em 0; background-color:#e0ffd9; border-radius: 3px;}
@@ -16,6 +17,14 @@
   <body>
     <span class="label">Length: </span> <input type="number" id="inputNumberOfMoves" value="" min="1" max="50" />
     <input type="button" id="go" value="Scramble" />
+
+    <div id="shuffles">
+      <input type="button" id="wr" value="Word record" />
+      <input type="button" id="superflip" value="Superflip" />
+      <input type="button" id="superflip2" value="Superflip alt" />
+    </div>
+
+    <hr />
 
     <div id="output"></div>
 
@@ -26,6 +35,11 @@
       var shuffler = {
         faces: ["L","R","F","B","U","D","L'","R'","F'","B'","U'","D'","L2","R2","F2","B2","U2","D2"],
         numberOfMoves: 25,
+        shuffles: {
+          wr: ["B","F","U","F","D","R'","F","D","L","B2","U'","B2","D","B'","R'","F2","L2","R2","U'"],
+          superflip : ["U","R2","F","B","R","B2","R","U2","L","B2","R","U'","D'","R2","F","R'","L","B2","U2","F2"],
+          superflip2: ["B","F","U","F","D","R'","F","D","L","B2","U'","B2","D","B'","R'","F2","L2","R2","U'"]
+        },
         shuffle : function(){
           var last = "placeholder",
           next = "placeholder",
@@ -65,7 +79,7 @@
 
       inputNumberOfMoves.value = shuffler.numberOfMoves;
 
-      shuffler.defaultShuffle();
+      shuffler.shuffle();
     </script>
   </body>
 </html>
