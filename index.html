@@ -21,7 +21,6 @@
     <div id="shuffles">
       <input type="button" id="wr" value="Word record" />
       <input type="button" id="superflip" value="Superflip" />
-      <input type="button" id="superflip2" value="Superflip alt" />
     </div>
 
     <hr />
@@ -29,21 +28,19 @@
     <div id="output"></div>
 
     <script>
-      var output = document.getElementById("output"),
-          inputNumberOfMoves = document.getElementById("inputNumberOfMoves");
-
       var shuffler = {
         faces: ["L","R","F","B","U","D","L'","R'","F'","B'","U'","D'","L2","R2","F2","B2","U2","D2"],
         numberOfMoves: 25,
+        shuffledOrder: "",
         shuffles: {
           wr: ["B","F","U","F","D","R'","F","D","L","B2","U'","B2","D","B'","R'","F2","L2","R2","U'"],
-          superflip : ["U","R2","F","B","R","B2","R","U2","L","B2","R","U'","D'","R2","F","R'","L","B2","U2","F2"],
-          superflip2: ["B","F","U","F","D","R'","F","D","L","B2","U'","B2","D","B'","R'","F2","L2","R2","U'"]
+          superflip : ["U","R2","F","B","R","B2","R","U2","L","B2","R","U'","D'","R2","F","R'","L","B2","U2","F2"]
         },
         shuffle : function(){
           var last = "placeholder",
-          next = "placeholder",
-          shuffledOrder = "";
+          next = "placeholder";
+
+          this.shuffledOrder = "";
 
           for (var i = 0; i < this.numberOfMoves; i++) {
             do {
@@ -52,29 +49,39 @@
 
             last = next;
 
-            shuffledOrder += "<span>".concat(next).concat("</span>");
+            this.shuffledOrder += "<span>".concat(next).concat("</span>");
           }
 
-          output.innerHTML = shuffledOrder;
+          output.innerHTML = this.shuffledOrder;
         },
-        defaultShuffle: function(){
-          var shuffle = ["B","F","U","F","D","R'","F","D","L","B2","U'","B2","D","B'","R'","F2","L2","R2","U'"],
-              shuffledOrder = "";
+        namedShuffle: function(nameOfShuffle){
+          this.shuffledOrder = "";
 
-          for (var i = 0; i < shuffle.length; i++) {
-            shuffledOrder += "<span>".concat(shuffle[i]).concat("</span>");
+          for (var i = 0; i < nameOfShuffle.length; i++) {
+            this.shuffledOrder += "<span>".concat(nameOfShuffle[i]).concat("</span>");
           }
 
-          output.innerHTML = shuffledOrder;
+          output.innerHTML = this.shuffledOrder;
         },
         getNext: function(){
           return this.faces[Math.floor(Math.random() * this.faces.length)];
         }
       };
 
+      var output = document.getElementById("output"),
+          inputNumberOfMoves = document.getElementById("inputNumberOfMoves");
+
       document.getElementById("go").onclick = function(){
         shuffler.numberOfMoves = inputNumberOfMoves.value;
         shuffler.shuffle();
+      };
+
+      document.getElementById("wr").onclick = function(){
+        shuffler.namedShuffle(shuffler.shuffles.wr)
+      };
+
+      document.getElementById("superflip").onclick = function(){
+        shuffler.namedShuffle(shuffler.shuffles.superflip)
       };
 
       inputNumberOfMoves.value = shuffler.numberOfMoves;
