@@ -1,3 +1,4 @@
+<!-- too simple ... plenty still to do -->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -21,6 +22,7 @@
     <div id="shuffles">
       <input type="button" id="wr" value="Word record" />
       <input type="button" id="superflip" value="Superflip" />
+      <input type="button" id="bastard" value="www.cube20.org" />
     </div>
 
     <hr />
@@ -34,7 +36,8 @@
         shuffledOrder: "",
         shuffles: {
           wr: ["B","F","U","F","D","R'","F","D","L","B2","U'","B2","D","B'","R'","F2","L2","R2","U'"],
-          superflip : ["U","R2","F","B","R","B2","R","U2","L","B2","R","U'","D'","R2","F","R'","L","B2","U2","F2"]
+          superflip : ["U","R2","F","B","R","B2","R","U2","L","B2","R","U'","D'","R2","F","R'","L","B2","U2","F2"],
+          bastard: ["F","U'","F2","D'","B","U","R'","F'","L","D'","R'","U'","L","U","B'","D2","R'","F","U2","D2"]
         },
         shuffle : function(){
           var last = "placeholder",
@@ -77,11 +80,15 @@
       };
 
       document.getElementById("wr").onclick = function(){
-        shuffler.namedShuffle(shuffler.shuffles.wr)
+        shuffler.namedShuffle(shuffler.shuffles.wr);
       };
 
       document.getElementById("superflip").onclick = function(){
-        shuffler.namedShuffle(shuffler.shuffles.superflip)
+        shuffler.namedShuffle(shuffler.shuffles.superflip);
+      };
+
+      document.getElementById("bastard").onclick = function(){
+        shuffler.namedShuffle(shuffler.shuffles.bastard);
       };
 
       inputNumberOfMoves.value = shuffler.numberOfMoves;
